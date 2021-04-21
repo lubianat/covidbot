@@ -1,0 +1,4 @@
+*/user-*.py
+*.lwp
+wikipedia_case_import/apicache-py3/*
+*.tsv

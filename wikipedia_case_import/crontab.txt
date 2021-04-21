@@ -1,0 +1,1 @@
+00 21 * * * cd ~/Documents/wiki_related/covidbot/wikipedia_case_import/ && python3 pywiki_import

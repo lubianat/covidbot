@@ -1,0 +1,32 @@
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: covidbot
+  labels:
+    name: covidbot
+    # The toolforge=tool label will cause $HOME and other paths to be mounted from Toolforge
+    toolforge: tool
+spec:
+  schedule: "00 00 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            toolforge: tool
+        spec:
+          containers:
+          - name: bot
+            workingDir: /data/project/covidbot/covidbot/wikipedia_case_import
+            image: docker-registry.tools.wmflabs.org/toolforge-python39-sssd-base:latest
+            args:
+            - /bin/bash
+            - -c
+            - "source /data/project/covidbot/covidbot/wikipedia_case_import/venv/bin/activate  &&  python  pywiki_import.py"
+            env:
+            - name: PYWIKIBOT_DIR
+              value: /data/project/covidbot
+            - name: HOME
+              value: /data/project/covidbot
+          restartPolicy: OnFailure
